@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    fullName: {
+    name: {
         type: String,
         required: true,
     },
-    username: {
+    userName: {
         type: String,
         required: true,
         unique: true,
@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ["male", "female", "trans"],
+        enum: ["male", "female"],
+        required: true,
     },
     socialLinks: {
         type: String,
@@ -34,14 +35,10 @@ const userSchema = new mongoose.Schema({
     isPrivate: {
         type: Boolean,
         default: true,
+        required: true,
     },
     avatar: {
-        id: {
-            type: String
-        },
-        url: {
-            type: String
-        },
+        type: String
     },
     posts: [
         {
