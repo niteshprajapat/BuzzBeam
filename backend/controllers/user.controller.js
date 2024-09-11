@@ -254,8 +254,6 @@ export const updateProfile = async (req, res) => {
 // deleteAccount
 export const deleteAccount = async (req, res) => {
     try {
-        const { name, userName, bio, gender, socialLinks, isPrivate, avatar } = req.body;
-
         const userId = req.user._id;
 
         if (!userId) {
@@ -266,33 +264,14 @@ export const deleteAccount = async (req, res) => {
         }
 
 
-        const user = await User.findByIdAndUpdate(
-            userId,
-            {
-                $set: {
-                    name,
-                    userName,
-                    bio,
-                    gender,
-                    socialLinks,
-                    isPrivate,
-                    avatar,
-                },
-            },
-            { new: true },
-        );
-
-
+        const user = await User.findByIdAndDelete(userId);
         await user.save();
-
 
         return res.status(200).json({
             success: true,
-            message: "Account Details Updated Successfully!",
+            message: "Account Deleted Successfully!",
             user,
         })
-
-
 
 
     } catch (error) {
@@ -412,3 +391,172 @@ export const searchAccount = async (req, res) => {
 
 }
 
+
+// Follow-Unfollow
+// followUnfollow
+export const followUnfollow = async (req, res) => {
+    try {
+        const loggedInUserId = req.user._id;
+        const userId = req.params.id;
+
+        if (userId === loggedInUserId) {
+            return res.status(400).json({
+                success: false,
+                message: "You Can't follow yourself!",
+            })
+        }
+
+
+        const loggedInUser = await User.findById(loggedInUserId);
+        const user = await User.findById(userId);
+
+
+
+
+        if (loggedInUser.following.includes(userId)) {
+            // unfollow
+            await User.findByIdAndUpdate(loggedInUserId, { $pull: { following: userId } });
+            await User.findByIdAndUpdate(userId, { $pull: { followers: loggedInUserId } });
+
+            await loggedInUser.save();
+            await user.save();
+
+            return res.status(200).json({
+                success: true,
+                message: `You unfollowed ${user?.name}`,
+            })
+
+        } else {
+            // follow
+            await User.findByIdAndUpdate(loggedInUserId, { $push: { following: userId } });
+            await User.findByIdAndUpdate(userId, { $push: { followers: loggedInUserId } });
+
+            await loggedInUser.save();
+            await user.save();
+
+            return res.status(200).json({
+                success: true,
+                message: `You followed ${user?.name}`,
+            })
+        }
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+}
+
+
+// followingList
+export const followingList = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide User ID",
+            });
+        }
+
+
+        const user = await User.findById(userId).populate({
+            path: "following",
+            select: "-password"
+        });
+
+        const followingList = user.following;
+        console.log("followingList", followingList);
+
+
+        await user.save();
+
+
+        return res.status(200).json({
+            success: true,
+            message: "User Following List",
+            followingList,
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+}
+
+
+// followersList
+export const followersList = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide User ID",
+            });
+        }
+
+
+        const user = await User.findById(userId).populate({
+            path: "followers",
+            select: "-password"
+        });
+
+        const followersList = user.followers;
+
+
+        await user.save();
+
+
+        return res.status(200).json({
+            success: true,
+            message: "User followersList List",
+            followersList,
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+}
+
+
+// suggestedUsers
+export const suggestedUsers = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide userId",
+            });
+        }
+
+        const users = await User.find({ _id: { $ne: userId } }).select("-password");
+
+        return res.status(200).json({
+            success: true,
+            message: "Suggested Users List",
+            users,
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+}
