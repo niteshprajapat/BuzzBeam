@@ -88,20 +88,20 @@ export const register = async (req, res) => {
 // login
 export const login = async (req, res) => {
     try {
-        const { userName, email, password } = req.body;
+        const { user, password } = req.body;
 
-        if (!(userName || email) || !password) {
+        if (!user || !password) {
             return res.status(404).json({
                 success: false,
                 message: "All fields are Required!",
             });
         }
 
-        const user = await User.findOne({
-            $or: [{ userName }, { email }],
+        const userData = await User.findOne({
+            $or: [{ userName: user }, { email: user }],
         });
 
-        if (!user) {
+        if (!userData) {
             return res.status(400).json({
                 success: false,
                 message: "User Not Found!",
@@ -109,7 +109,7 @@ export const login = async (req, res) => {
         }
 
 
-        const comparePassword = await bcrypt.compare(password, user.password);
+        const comparePassword = await bcrypt.compare(password, userData.password);
         if (!comparePassword) {
             return res.status(400).json({
                 success: false,
@@ -119,19 +119,21 @@ export const login = async (req, res) => {
 
 
         // token
-        const token = jwt.sign({ _id: user?._id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ _id: userData?._id }, process.env.JWT_SECRET);
 
 
-        user.password = null;
+        userData.password = null;
 
         return res.status(200).cookie("jwt", token, {
             httpOnly: false,
-            maxAge: 1 * 24 * 60 * 60 * 1000,
+            maxAge: 30 * 24 * 60 * 60 * 1000,
         }).json({
             success: true,
             message: "User LoggedIn Successfully!",
-            user,
+            user: userData,
+            token: token,
         });
+
 
     } catch (error) {
         console.log(error);
@@ -148,10 +150,12 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     try {
 
-
+        res.clearCookie("jwt");
         return res.status(200).cookie("jwt", "", {
-            httpOnly: true,
+            httpOnly: false,
             maxAge: 0,
+            // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+            // secure: process.env.NODE_ENV === "production",
         }).json({
             success: true,
             message: "User LoggedOut Successfully!",
