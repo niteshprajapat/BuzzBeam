@@ -183,7 +183,9 @@ export const getProfileById = async (req, res) => {
         }
 
 
-        const user = await User.findById(userId).select("-password");
+        const user = await User.findById(userId).populate({
+            path: "posts savedPosts"
+        }).select("-password");
 
         return res.status(200).json({
             success: true,
@@ -372,9 +374,10 @@ export const searchAccount = async (req, res) => {
 
 
         if (!users.length) {
-            return res.status(404).json({
-                success: false,
+            return res.status(200).json({
+                success: true,
                 message: "Account Not Found",
+                users: [],
             });
         }
 
