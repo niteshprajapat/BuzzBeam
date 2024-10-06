@@ -6,7 +6,8 @@ import jwt from 'jsonwebtoken';
 export const isAuthenticated = async (req, res, next) => {
     try {
 
-        const token = req.cookies.jwt;
+        // const token = req.header('jwt');
+        const token = req.headers.authorization.replace("Bearer ", "");
 
         if (!token) {
             return res.status(401).json({
@@ -16,7 +17,7 @@ export const isAuthenticated = async (req, res, next) => {
         }
 
 
-        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if (!decoded) {
             return res.status(401).json({
                 success: false,
@@ -35,5 +36,6 @@ export const isAuthenticated = async (req, res, next) => {
 
     } catch (error) {
         console.log(error);
+
     }
 }
