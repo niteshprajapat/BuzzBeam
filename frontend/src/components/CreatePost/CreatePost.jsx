@@ -4,13 +4,15 @@ import { Dialog, DialogContent, DialogHeader } from '../ui/dialog';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { setPosts } from '@/redux/slices/postSlice';
 
 
 
 
 const CreatePost = ({ open, setOpen }) => {
+    const dispatch = useDispatch();
     const { token } = useSelector((store) => store.auth);
 
     const [caption, setCaption] = useState("");
@@ -21,9 +23,12 @@ const CreatePost = ({ open, setOpen }) => {
     const [filePreview, setFilePreview] = useState(null);
 
 
-    console.log("file => ", file)
-    console.log("filePreview => ", filePreview)
-    console.log("imageUrl => ", imageUrl)
+    // console.log("file => ", file)
+    // console.log("filePreview => ", filePreview)
+    // console.log("imageUrl => ", imageUrl)
+
+    const { posts } = useSelector((store) => store.post)
+
 
 
     const readFileAsDataUrl = async (file) => {
@@ -95,8 +100,15 @@ const CreatePost = ({ open, setOpen }) => {
 
             if (data?.success) {
                 console.log("uploadpost", data);
-
+                dispatch(setPosts([...posts, data?.post]));
                 toast.success(data?.message);
+
+                setOpen(false)
+                setCaption("");
+                setPostLocation("")
+                setFile(null)
+                setImageUrl(null)
+                setFilePreview(null)
             }
         } catch (error) {
             console.log(error)
@@ -107,7 +119,14 @@ const CreatePost = ({ open, setOpen }) => {
 
     return (
         <form>
-            <Dialog open={open} onOpenChange={() => setOpen(false)}>
+            <Dialog open={open} onOpenChange={() => {
+                setOpen(false)
+                setCaption("");
+                setPostLocation("")
+                setFile(null)
+                setImageUrl(null)
+                setFilePreview(null)
+            }}>
                 <DialogContent>
                     <DialogHeader>
                         <h1 className='font-bold text-[15px] text-center'>Create new post</h1>
