@@ -7,6 +7,8 @@ import PrivateRoute from './components/ui/Sidebar/PrivateRoute';
 import Profile from './pages/Profile/Profile';
 import Search from './pages/Search/Search';
 import Reels from './pages/Reels/Reels';
+import Followers from './pages/FollowersFollowing/Followers';
+import Following from './pages/FollowersFollowing/Following';
 
 
 
@@ -22,8 +24,8 @@ const App = () => {
                     <Route path='/feed' element={<Feed />} />
                     <Route path='/search' element={<Search />} />
                     <Route path='/reels' element={<Reels />} />
-                    {/* <Route path='/followers' element={<Reels />} />
-                    <Route path='/following' element={<Reels />} /> */}
+                    {/* <Route path='/followers/:userId' element={<Followers />} />
+                    <Route path='/following/:userId' element={<Following />} /> */}
                     <Route path='/profile/:id' element={<Profile />} />
 
                 </Route>
