@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
 import UpdateProfile from '@/components/Profile/UpdateProfile';
+import Followers from '../FollowersFollowing/Followers';
+import Following from '../FollowersFollowing/Following';
 
 const Profile = () => {
     const { id } = useParams();
@@ -16,6 +18,8 @@ const Profile = () => {
     const [feed, setFeed] = useState("posts");
 
     const [open, setOpen] = useState(false);
+    const [openFollowers, setOpenFollowers] = useState(false);
+    const [openFollowing, setOpenFollowing] = useState(false);
 
     useGetUserProfile(id);
 
@@ -64,6 +68,8 @@ const Profile = () => {
         <>
 
             <UpdateProfile open={open} setOpen={setOpen} />
+            <Followers openFollowers={openFollowers} setOpenFollowers={setOpenFollowers} />
+            <Following openFollowing={openFollowing} setOpenFollowing={setOpenFollowing} />
 
 
             <div className='flex h-screen '>
@@ -105,8 +111,8 @@ const Profile = () => {
                                 </div>
                                 <div className='flex items-center gap-6'>
                                     <span>{userProfile?.posts?.length} posts</span>
-                                    <span>{userProfile?.followers?.length} followers</span>
-                                    <span>{userProfile?.following?.length} following</span>
+                                    <span onClick={() => setOpenFollowers(true)} >{userProfile?.followers?.length} followers</span>
+                                    <span onClick={() => setOpenFollowing(true)} >{userProfile?.following?.length} following</span>
                                 </div>
                                 <div className='flex flex-col gap-1'>
                                     <span>{userProfile?.name}</span>
