@@ -6,6 +6,8 @@ const userSlice = createSlice({
         user: null,
         token: null,
         suggestedUsers: [],
+        followers: [],
+        following: [],
         selectedUser: null,
         userProfile: null,
     },
@@ -19,6 +21,12 @@ const userSlice = createSlice({
         setSuggestedUsers: (state, action) => {
             state.suggestedUsers = action.payload;
         },
+        setFollowers: (state, action) => {
+            state.followers = action.payload;
+        },
+        setFollowing: (state, action) => {
+            state.following = action.payload;
+        },
         setSelectedUser: (state, action) => {
             state.selectedUser = action.payload;
         },
@@ -30,5 +38,5 @@ const userSlice = createSlice({
 });
 
 
-export const { setUser, setToken, setSuggestedUsers, setSelectedUser, setUserProfile } = userSlice.actions;
+export const { setUser, setToken, setSuggestedUsers, setFollowers, setFollowing, setSelectedUser, setUserProfile } = userSlice.actions;
 export default userSlice.reducer;
