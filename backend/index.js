@@ -5,7 +5,35 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './config/database.js';
 import userRoutes from './routes/user.routes.js';
+import postRoutes from './routes/post.routes.js';
+import commentRoutes from './routes/comment.routes.js';
+import messageRoutes from './routes/message.routes.js';
+
 import { cloudinaryConfig } from './config/cloudinary.js';
+
+
+
+
+
+
+
+
+// Pwd change and update
+// Pwd Forgot and update
+// Pwd reset mail api and update
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21,16 +49,21 @@ const port = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-// asas
-// }))
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+}));
 
 const startServer = async () => {
     connectDB();
 
 
     // Routes Middleare
-    app.use('/api/v1/users', userRoutes)
+    app.use('/api/v1/users', userRoutes);
+    app.use('/api/v1/posts', postRoutes);
+    app.use('/api/v1/comments', commentRoutes);
+    app.use('/api/v1/messages', messageRoutes);
 
 
     // App Home Page
