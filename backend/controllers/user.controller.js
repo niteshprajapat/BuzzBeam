@@ -551,7 +551,14 @@ export const suggestedUsers = async (req, res) => {
             });
         }
 
-        const users = await User.find({ _id: { $ne: userId } }).select("-password");
+        // const users = await User.find({ _id: { $ne: userId } }).limit(3).select("-password");
+
+
+        const users = await User.aggregate([
+            { $match: { _id: { $ne: userId } } },
+            { $sample: { size: 6 } },
+            { $project: { password: 0 } },
+        ])
 
         return res.status(200).json({
             success: true,
