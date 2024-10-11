@@ -34,7 +34,6 @@ const userSlice = createSlice({
             state.userProfile = action.payload;
         },
     },
-
 });
 
 
