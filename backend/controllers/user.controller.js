@@ -574,3 +574,24 @@ export const suggestedUsers = async (req, res) => {
         });
     }
 }
+
+// getAllUsers
+export const getAllUsers = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const users = await User.find({ _id: { $ne: userId } });
+        return res.status(200).json({
+            success: true,
+            message: "Fetched All Users List",
+            users,
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong!",
+        });
+    }
+}
