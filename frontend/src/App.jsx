@@ -9,6 +9,7 @@ import Search from './pages/Search/Search';
 import Reels from './pages/Reels/Reels';
 import Followers from './pages/FollowersFollowing/Followers';
 import Following from './pages/FollowersFollowing/Following';
+import Message from './pages/Message/Message';
 
 
 
@@ -27,6 +28,7 @@ const App = () => {
                     {/* <Route path='/followers/:userId' element={<Followers />} />
                     <Route path='/following/:userId' element={<Following />} /> */}
                     <Route path='/profile/:id' element={<Profile />} />
+                    <Route path='/messages' element={<Message />} />
 
                 </Route>
 
