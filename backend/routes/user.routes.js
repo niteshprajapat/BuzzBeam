@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 
-import { login, logout, register, uploadMedia, getProfileById, searchAccount, updateProfile, deleteAccount, followUnfollow, followingList, followersList, suggestedUsers } from '../controllers/user.controller.js';
+import { login, logout, register, uploadMedia, getProfileById, searchAccount, updateProfile, deleteAccount, followUnfollow, followingList, followersList, suggestedUsers, getAllUsers } from '../controllers/user.controller.js';
 import { isAuthenticated } from '../middlewares/authMiddleware.js';
 // import { uploadFile } from '../middlewares/multer.js';
 
@@ -27,6 +27,7 @@ router.get('/followUnfollow/:id', isAuthenticated, followUnfollow);
 router.get('/followingList/:id', isAuthenticated, followingList);
 router.get('/followersList/:id', isAuthenticated, followersList);
 router.get('/suggestedUsers', isAuthenticated, suggestedUsers);
+router.get('/getAllUsers', isAuthenticated, getAllUsers);
 
 
 
