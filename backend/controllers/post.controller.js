@@ -258,7 +258,7 @@ export const likeUnlikePost = async (req, res) => {
             await User.findByIdAndUpdate(userId, { $pull: { postLiked: postId } });
 
             return res.status(200).json({
-                succes: true,
+                success: true,
                 message: "Post Unliked Successfully!",
             });
 
@@ -269,7 +269,7 @@ export const likeUnlikePost = async (req, res) => {
             await User.findByIdAndUpdate(userId, { $push: { postLiked: postId } });
 
             return res.status(200).json({
-                succes: true,
+                success: true,
                 message: "Post Liked Successfully!",
             });
         }
