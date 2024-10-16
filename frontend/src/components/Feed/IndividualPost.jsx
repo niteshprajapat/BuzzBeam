@@ -1,17 +1,20 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
-import { Bookmark, Heart, MessageCircle, MessageCircleCode, Save } from 'lucide-react';
+import { Bookmark, FileHeart, Heart, LucideHeart, MessageCircle, MessageCircleCode, Save } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { Badge } from '../ui/badge';
+import axios from 'axios';
+import { HeartFilledIcon } from '@radix-ui/react-icons';
+import { toast } from 'sonner';
 
 
 const IndividualPost = ({ post }) => {
 
-    const { user } = useSelector((store) => store?.auth)
+    const { user, token } = useSelector((store) => store?.auth)
 
     console.log("post", post);
 
@@ -28,7 +31,30 @@ const IndividualPost = ({ post }) => {
             const data = await response?.data;
             console.log("followUnfollowData", data);
 
-            toast.message(data?.message);
+            toast.success(data?.message);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
+    const likePost = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:5000/api/v1/posts/likeUnlikePost/${post?._id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response.data;
+            console.log("LIKE", data);
+
+            if (data?.success) {
+                toast.success(data?.message);
+            }
 
         } catch (error) {
             console.log(error);
@@ -42,30 +68,31 @@ const IndividualPost = ({ post }) => {
 
             <div className='h-[400px] w-[300px] flex flex-col'>
                 <div>
-                    <Link to={`/profile/${post?.user?._id}`}>
-                        <div className='flex justify-between items-center'>
-                            <div className='flex items-center gap-3'>
+
+                    <div className='flex justify-between items-center'>
+                        <div className='flex items-center gap-3'>
+                            <Link to={`/profile/${post?.user?._id}`}>
                                 <Avatar>
                                     <AvatarImage src={post?.user?.avatar} alt="avatar" />
                                     <AvatarFallback>{`https://avatar.iran.liara.run/public`}</AvatarFallback>
                                 </Avatar>
-                                <span> {formatDistanceToNow(post?.createdAt)} ago </span>
-                                <span>
-                                    {
-                                        post?.user?._id?.toString() === user?._id?.toString() ? (<Badge variant={"outline"}>Author</Badge>) :
+                            </Link>
+                            <span> {formatDistanceToNow(post?.createdAt)} ago </span>
+                            <span>
+                                {
+                                    post?.user?._id?.toString() === user?._id?.toString() ? (<Badge variant={"outline"}>Author</Badge>) :
 
-                                            user?.following?.includes(post?.user?._id) ? (
-                                                <Button onClick={() => handleFollowUnfollow(post?.user?._id)} variant="secondary">Following</Button>
-                                            ) : (
-                                                <Button onClick={() => handleFollowUnfollow(post?.user?._id)}>Follow</Button>
-                                            )
-                                    }
+                                        user?.following?.includes(post?.user?._id) ? (
+                                            <Button onClick={() => handleFollowUnfollow(post?.user?._id)} variant="secondary">Following</Button>
+                                        ) : (
+                                            <Button onClick={() => handleFollowUnfollow(post?.user?._id)}>Follow</Button>
+                                        )
+                                }
 
-                                </span>
-                            </div>
-                            <Button variant="secondary">...</Button>
+                            </span>
                         </div>
-                    </Link>
+                        <Button variant="secondary">...</Button>
+                    </div>
                     <span>{post?.postLocation}</span>
                 </div>
 
@@ -89,7 +116,22 @@ const IndividualPost = ({ post }) => {
                 <div>
                     <div className='flex justify-between items-center'>
                         <div className='flex items-center gap-3'>
-                            <Heart />
+                            {
+                                post?.likes?.includes(user?._id) ? (
+                                    <button onClick={likePost}>
+                                        <Heart />
+                                    </button>
+
+                                ) : (
+                                    <button onClick={likePost}>
+                                        <HeartFilledIcon />
+                                    </button>
+                                )
+                            }
+
+
+
+
                             <MessageCircle />
                         </div>
                         <div>
