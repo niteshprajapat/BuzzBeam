@@ -33,7 +33,7 @@ const Sidebar = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/v1/users/logout', {
+            const response = await axios.get('https://buzzbeam.onrender.com/api/v1/users/logout', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + token,

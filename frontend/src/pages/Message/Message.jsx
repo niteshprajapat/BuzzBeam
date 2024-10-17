@@ -33,7 +33,7 @@ const Message = () => {
 
 
         try {
-            const response = await axios.post(`http://127.0.0.1:5000/api/v1/messages/sendMessage/${selectedUser?._id}`, {
+            const response = await axios.post(`https://buzzbeam.onrender.com/api/v1/messages/sendMessage/${selectedUser?._id}`, {
                 message,
             }, {
                 headers: {

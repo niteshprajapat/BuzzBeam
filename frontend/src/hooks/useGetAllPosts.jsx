@@ -9,7 +9,7 @@ const useGetAllPosts = () => {
 
     const fetchAllPosts = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/v1/posts/getAllPosts', {
+            const response = await axios.get('https://buzzbeam.onrender.com/api/v1/posts/getAllPosts', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token

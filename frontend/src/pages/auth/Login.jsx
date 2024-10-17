@@ -36,7 +36,7 @@ const Login = () => {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/v1/users/login', {
+            const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/login', {
                 user: userCredentials,
                 password,
             }, {

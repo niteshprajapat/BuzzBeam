@@ -20,7 +20,7 @@ const IndividualPost = ({ post }) => {
 
     const handleFollowUnfollow = async (userId) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/v1/users/followUnfollow/${userId}`, {
+            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/followUnfollow/${userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,
@@ -41,7 +41,7 @@ const IndividualPost = ({ post }) => {
 
     const likePost = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/v1/posts/likeUnlikePost/${post?._id}`, {
+            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/posts/likeUnlikePost/${post?._id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,

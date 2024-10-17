@@ -15,7 +15,7 @@ const Search = () => {
 
     // const handleSearch = async (e) => {
     //     try {
-    //         const response = await axios.get(`http://127.0.0.1:5000/api/v1/users/search?query=${searchAccount}`, {
+    //         const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/search?query=${searchAccount}`, {
     //             headers: {
     //                 'Content-Type': 'application/json',
     //                 Authorization: 'Bearer ' + token,
@@ -36,7 +36,7 @@ const Search = () => {
     // }
     const handleSearch = async (value) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/v1/users/search?query=${value}`, {
+            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/search?query=${value}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,

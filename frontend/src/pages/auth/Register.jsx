@@ -32,7 +32,7 @@ const Register = () => {
                 }
 
 
-                const response = await axios.post('http://127.0.0.1:5000/api/v1/users/uploadFile', formData, {
+                const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/uploadFile', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -62,7 +62,7 @@ const Register = () => {
 
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/v1/users/register', {
+            const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/register', {
                 name,
                 userName,
                 email,

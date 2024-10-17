@@ -9,7 +9,7 @@ const useGetAllUsers = () => {
 
     const fetchAllUsers = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/v1/users/getAllUsers`, {
+            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/getAllUsers`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token

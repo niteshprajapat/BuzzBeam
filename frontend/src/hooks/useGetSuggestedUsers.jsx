@@ -11,7 +11,7 @@ const useGetSuggestedUsers = () => {
 
     const fetchAllSuggestedUsers = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:5000/api/v1/users/suggestedUsers', {
+            const response = await axios.get('https://buzzbeam.onrender.com/api/v1/users/suggestedUsers', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token

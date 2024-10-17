@@ -56,7 +56,7 @@ const CreatePost = ({ open, setOpen }) => {
 
 
             try {
-                const response = await axios.post('http://127.0.0.1:5000/api/v1/users/uploadFile', {
+                const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/uploadFile', {
                     media: file
                 }, {
                     headers: {
@@ -84,7 +84,7 @@ const CreatePost = ({ open, setOpen }) => {
 
     const handleCreatePost = async (e) => {
         try {
-            const response = await axios.post('http://127.0.0.1:5000/api/v1/posts/createPost', {
+            const response = await axios.post('https://buzzbeam.onrender.com/api/v1/posts/createPost', {
                 postCaption: caption,
                 postSource: imageUrl,
                 postLocation: postLocation ? postLocation : "",
