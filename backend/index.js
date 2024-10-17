@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request } from 'express';
 import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import cors from 'cors';
@@ -55,6 +55,8 @@ app.use(cors({
     credentials: true,
 }));
 
+
+
 const startServer = async () => {
     connectDB();
 
@@ -68,6 +70,9 @@ const startServer = async () => {
 
     // App Home Page
     app.get('/', (req, res) => {
+        console.log(req.headers.origin);
+        console.log(req.headers.host);
+
         return res.status(200).json({
             success: true,
             message: "This is Home Page of BuzzBeam",
