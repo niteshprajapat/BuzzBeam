@@ -1,0 +1,14 @@
+{
+    "name": "buzzbeam",
+    "version": "1.0.0",
+    "description": "Buzzbeam, a alternative for Instagram.",
+    "main": "index.js",
+    "scripts": {
+        "start": "cd backend && npm install && npm run start",
+        "dev": "cd backend && npm install && npm run dev",
+        "build": "cd frontend && npm install && npm run build"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
