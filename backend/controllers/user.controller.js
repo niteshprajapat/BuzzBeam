@@ -127,6 +127,8 @@ export const login = async (req, res) => {
         return res.status(200).cookie("jwt", token, {
             httpOnly: false,
             maxAge: 30 * 24 * 60 * 60 * 1000,
+            sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+            secure: process.env.NODE_ENV === "Development" ? false : true,
         }).json({
             success: true,
             message: "User LoggedIn Successfully!",
@@ -154,8 +156,8 @@ export const logout = async (req, res) => {
         return res.status(200).cookie("jwt", "", {
             httpOnly: false,
             maxAge: 0,
-            // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-            // secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+            secure: process.env.NODE_ENV === "Development" ? false : true,
         }).json({
             success: true,
             message: "User LoggedOut Successfully!",
