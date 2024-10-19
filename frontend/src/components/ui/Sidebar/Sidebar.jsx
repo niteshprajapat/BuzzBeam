@@ -8,6 +8,7 @@ import { toast } from 'sonner'
 import axios from 'axios'
 import { setToken, setUser } from '@/redux/slices/userSlice'
 import CreatePost from '@/components/CreatePost/CreatePost'
+import { BACKEND_URL } from '@/route'
 // import { logout } from '@/utils/logout'
 // import { getCookie } from '@/utils/getCookie'
 
@@ -33,7 +34,7 @@ const Sidebar = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.get('https://buzzbeam.onrender.com/api/v1/users/logout', {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/logout`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: "Bearer " + token,

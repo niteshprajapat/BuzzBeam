@@ -6,6 +6,7 @@ import { AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { BACKEND_URL } from '@/route';
 
 const SuggestedUsers = () => {
     const { token } = useSelector((store) => store.auth);
@@ -19,7 +20,7 @@ const SuggestedUsers = () => {
 
     const handleFollow = async (userId) => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/followUnfollow/${userId}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/followUnfollow/${userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,

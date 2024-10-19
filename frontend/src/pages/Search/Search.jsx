@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Sidebar from '@/components/ui/Sidebar/Sidebar'
+import { BACKEND_URL } from '@/route';
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
@@ -15,7 +16,7 @@ const Search = () => {
 
     // const handleSearch = async (e) => {
     //     try {
-    //         const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/search?query=${searchAccount}`, {
+    //         const response = await axios.get(`BACKEND_URL/api/v1/users/search?query=${searchAccount}`, {
     //             headers: {
     //                 'Content-Type': 'application/json',
     //                 Authorization: 'Bearer ' + token,
@@ -36,7 +37,7 @@ const Search = () => {
     // }
     const handleSearch = async (value) => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/search?query=${value}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/search?query=${value}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,

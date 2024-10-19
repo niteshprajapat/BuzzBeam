@@ -5,6 +5,7 @@ import Sidebar from '@/components/ui/Sidebar/Sidebar'
 import useGetAllMessages from '@/hooks/useGetAllMessages';
 import useGetAllUsers from '@/hooks/useGetAllUsers';
 import { setSelectedUser } from '@/redux/slices/userSlice';
+import { BACKEND_URL } from '@/route';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import axios from 'axios';
 import { MessageCircle, MessageCircleCodeIcon, Send } from 'lucide-react';
@@ -33,7 +34,7 @@ const Message = () => {
 
 
         try {
-            const response = await axios.post(`https://buzzbeam.onrender.com/api/v1/messages/sendMessage/${selectedUser?._id}`, {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/messages/sendMessage/${selectedUser?._id}`, {
                 message,
             }, {
                 headers: {

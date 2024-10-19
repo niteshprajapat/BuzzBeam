@@ -1,4 +1,5 @@
 import { setPosts } from '@/redux/slices/postSlice';
+import { BACKEND_URL } from '@/route';
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +10,7 @@ const useGetAllPosts = () => {
 
     const fetchAllPosts = async () => {
         try {
-            const response = await axios.get('https://buzzbeam.onrender.com/api/v1/posts/getAllPosts', {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/posts/getAllPosts`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token

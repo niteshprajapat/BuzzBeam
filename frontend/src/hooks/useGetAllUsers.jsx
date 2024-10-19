@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { setAllUsers, setFollowers } from '@/redux/slices/userSlice';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { BACKEND_URL } from '@/route';
 
 const useGetAllUsers = () => {
     const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const useGetAllUsers = () => {
 
     const fetchAllUsers = async () => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/getAllUsers`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/getAllUsers`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token

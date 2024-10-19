@@ -10,6 +10,7 @@ import { Badge } from '../ui/badge';
 import axios from 'axios';
 import { HeartFilledIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
+import { BACKEND_URL } from '@/route';
 
 
 const IndividualPost = ({ post }) => {
@@ -20,7 +21,7 @@ const IndividualPost = ({ post }) => {
 
     const handleFollowUnfollow = async (userId) => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/followUnfollow/${userId}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/followUnfollow/${userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,
@@ -41,7 +42,7 @@ const IndividualPost = ({ post }) => {
 
     const likePost = async () => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/posts/likeUnlikePost/${post?._id}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/posts/likeUnlikePost/${post?._id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token,

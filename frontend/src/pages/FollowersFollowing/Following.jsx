@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import axios from 'axios'
+import { BACKEND_URL } from '@/route'
 
 const Following = ({ openFollowing, setOpenFollowing }) => {
     useGetAllFollowing();
@@ -23,7 +24,7 @@ const Following = ({ openFollowing, setOpenFollowing }) => {
 
     const handleFollowUnfollow = async (userId) => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/followUnfollow/${userId}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/followUnfollow/${userId}`, {
                 headers: {
                     'Content-Type': "application/json",
                     Authorization: 'Bearer ' + token,

@@ -14,6 +14,7 @@ import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import axios from 'axios';
+import { BACKEND_URL } from '@/route';
 
 const UpdateProfile = ({ open, setOpen }) => {
     const { user, token } = useSelector((store) => store.auth);
@@ -47,7 +48,7 @@ const UpdateProfile = ({ open, setOpen }) => {
                 }
 
 
-                const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/uploadFile', formData, {
+                const response = await axios.post(`${BACKEND_URL}/api/v1/users/uploadFile`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -76,7 +77,7 @@ const UpdateProfile = ({ open, setOpen }) => {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`https://buzzbeam.onrender.com/api/v1/users/updateProfile`, {
+            const response = await axios.put(`${BACKEND_URL}/api/v1/users/updateProfile`, {
                 name,
                 userName,
                 bio,

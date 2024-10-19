@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { BACKEND_URL } from '@/route'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -32,7 +33,7 @@ const Register = () => {
                 }
 
 
-                const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/uploadFile', formData, {
+                const response = await axios.post(`${BACKEND_URL}/api/v1/users/uploadFile`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -62,7 +63,7 @@ const Register = () => {
 
 
         try {
-            const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/register', {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/users/register`, {
                 name,
                 userName,
                 email,

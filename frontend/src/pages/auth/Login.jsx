@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { setUser, setToken } from '@/redux/slices/userSlice'
+import { BACKEND_URL } from '@/route'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,7 +37,7 @@ const Login = () => {
 
 
         try {
-            const response = await axios.post('https://buzzbeam.onrender.com/api/v1/users/login', {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/users/login`, {
                 user: userCredentials,
                 password,
             }, {

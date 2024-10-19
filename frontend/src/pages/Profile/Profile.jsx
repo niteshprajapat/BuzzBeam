@@ -10,6 +10,7 @@ import axios from 'axios';
 import UpdateProfile from '@/components/Profile/UpdateProfile';
 import Followers from '../FollowersFollowing/Followers';
 import Following from '../FollowersFollowing/Following';
+import { BACKEND_URL } from '@/route';
 
 const Profile = () => {
     const { id } = useParams();
@@ -42,7 +43,7 @@ const Profile = () => {
 
     const handleFollowUnfollow = async (userId) => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/users/followUnfollow/${userId}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/users/followUnfollow/${userId}`, {
                 headers: {
                     'Content-Type': "application/json",
                     Authorization: 'Bearer ' + token,

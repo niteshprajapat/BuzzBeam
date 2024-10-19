@@ -3,6 +3,7 @@ import { setFollowing } from '@/redux/slices/userSlice';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMessages } from '@/redux/slices/messageSlice';
+import { BACKEND_URL } from '@/route';
 
 const useGetAllMessages = () => {
     const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const useGetAllMessages = () => {
 
     const fetchAllMessages = async () => {
         try {
-            const response = await axios.get(`https://buzzbeam.onrender.com/api/v1/messages/getMessages/${selectedUser?._id}`, {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/messages/getMessages/${selectedUser?._id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + token
