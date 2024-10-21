@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
-import { Bookmark, FileHeart, Heart, LucideHeart, MessageCircle, MessageCircleCode, Save } from 'lucide-react';
+import { Bookmark, FileHeart, Heart, HeartOffIcon, LucideHeart, MessageCircle, MessageCircleCode, Save } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
@@ -16,6 +16,9 @@ import { BACKEND_URL } from '@/route';
 const IndividualPost = ({ post }) => {
 
     const { user, token } = useSelector((store) => store?.auth)
+
+    const [visibleComment, setVisibleComment] = useState(false);
+    const [commentText, setCommentText] = useState("");
 
     console.log("post", post);
 
@@ -63,6 +66,33 @@ const IndividualPost = ({ post }) => {
         }
     }
 
+
+    const handleAddComment = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post(`${BACKEND_URL}/api/v1/comments/createComment/${post?._id}`, {
+                commentText
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response.data;
+            console.log("Comment", data);
+
+            if (data?.success) {
+                toast.success(data?.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
 
     return (
         <div>
@@ -117,23 +147,23 @@ const IndividualPost = ({ post }) => {
                 <div>
                     <div className='flex justify-between items-center'>
                         <div className='flex items-center gap-3'>
-                            {
-                                post?.likes?.includes(user?._id) ? (
-                                    <button onClick={likePost}>
-                                        <Heart />
-                                    </button>
 
-                                ) : (
-                                    <button onClick={likePost}>
-                                        <HeartFilledIcon />
-                                    </button>
-                                )
-                            }
+                            <button onClick={likePost}>
+                                {
+                                    post?.likes?.includes(user?._id) ? <Heart /> : <Heart />
+                                }
+                            </button>
 
 
 
 
-                            <MessageCircle />
+
+
+                            <div onClick={() => setVisibleComment(!visibleComment)}>
+                                <MessageCircle />
+
+                            </div>
+
                         </div>
                         <div>
                             <Bookmark />
@@ -149,22 +179,43 @@ const IndividualPost = ({ post }) => {
                                 <h1>{post?.user?.userName}</h1>  <span>{post?.postCaption}</span>
                             </div>
                             <span>View All {post?.comments?.length} commments</span>
+
+                            {
+                                post?.comments && post?.comments?.map((comment) => (
+                                    <div className='flex justify-between items-center' key={comment?._id}>
+                                        <span>{comment?.commentText}</span>
+                                        <Heart />
+
+                                    </div>
+                                ))
+                            }
                         </div>
 
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Add a comment"
-                            />
+                        {
+                            visibleComment && (
+                                <form
+                                    onSubmit={handleAddComment}
+                                >
+                                    <Input
+                                        value={commentText}
+                                        onChange={(e) => setCommentText(e.target.value)}
+                                        type="text"
+                                        placeholder="Add a comment"
 
-                            <Button>Post</Button>
-                        </div>
+                                    />
+
+                                    <Button>Post</Button>
+                                </form>
+                            )
+                        }
+
+
 
                     </div>
                 </div>
             </div>
 
-        </div>
+        </div >
     )
 }
 
