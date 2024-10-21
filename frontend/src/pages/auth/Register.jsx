@@ -19,6 +19,8 @@ const Register = () => {
     const [isPrivate, setIsPrivate] = useState(false)
     const [avatar, setAvatar] = useState("")
 
+    console.log("avatar", avatar);
+
 
     const handleUploadFile = async (e) => {
         try {
