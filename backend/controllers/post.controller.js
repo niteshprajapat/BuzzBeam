@@ -140,6 +140,9 @@ export const getAllPosts = async (req, res) => {
             select: "-password"
         }).populate({
             path: "likes"
+        }).populate({
+            path: "comments"
+            // select: ""
         });
 
         return res.status(200).json({
