@@ -11,6 +11,8 @@ import axios from 'axios';
 import { HeartFilledIcon } from '@radix-ui/react-icons';
 import { toast } from 'sonner';
 import { BACKEND_URL } from '@/route';
+import DummyProfile from '/dummyProfile.png';
+
 
 
 const IndividualPost = ({ post }) => {
@@ -94,6 +96,56 @@ const IndividualPost = ({ post }) => {
         }
     }
 
+    const handleSavePost = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/posts/savePost/${post?._id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response.data;
+            console.log("SAVEPOST", data);
+
+            if (data?.success) {
+                toast.success(data?.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
+
+    const handleLikeUnlikeComment = async (commentId) => {
+
+        try {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/comments/likeUnlikeComment/${commentId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response.data;
+            console.log("CoommentLIKE", data);
+
+            if (data?.success) {
+                toast.success(data?.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
     return (
         <div>
 
@@ -105,7 +157,9 @@ const IndividualPost = ({ post }) => {
                             <Link to={`/profile/${post?.user?._id}`}>
                                 <Avatar>
                                     <AvatarImage src={post?.user?.avatar} alt="avatar" />
-                                    <AvatarFallback>{`https://avatar.iran.liara.run/public`}</AvatarFallback>
+                                    <AvatarFallback>
+                                        <img src={DummyProfile} alt="avatar" />
+                                    </AvatarFallback>
                                 </Avatar>
                             </Link>
                             <span> {formatDistanceToNow(post?.createdAt)} ago </span>
@@ -165,7 +219,7 @@ const IndividualPost = ({ post }) => {
                             </div>
 
                         </div>
-                        <div>
+                        <div onClick={handleSavePost}>
                             <Bookmark />
                         </div>
 
@@ -184,7 +238,12 @@ const IndividualPost = ({ post }) => {
                                 post?.comments && post?.comments?.map((comment) => (
                                     <div className='flex justify-between items-center' key={comment?._id}>
                                         <span>{comment?.commentText}</span>
-                                        <Heart />
+
+                                        <Button
+                                            onClick={() => handleLikeUnlikeComment(comment?._id)}
+                                            variant="secondary">
+                                            <Heart />
+                                        </Button>
 
                                     </div>
                                 ))
