@@ -6,6 +6,8 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import DummyProfile from '/dummyProfile.png';
+
 
 const Search = () => {
     const [searchAccount, setSearchAccount] = useState("");
@@ -96,7 +98,9 @@ const Search = () => {
                                     <div key={account?._id} className='flex items-center gap-4 cursor-pointer bg-gray-100 hover:bg-gray-200 p-2 rounded-md'>
                                         <Avatar>
                                             <AvatarImage src={account?.avatar} alt="avatar" />
-                                            <AvatarFallback>CN</AvatarFallback>
+                                            <AvatarFallback>
+                                                <img src={DummyProfile} alt="avatar" />
+                                            </AvatarFallback>
                                         </Avatar>
 
                                         <div className='flex flex-col gap-1'>

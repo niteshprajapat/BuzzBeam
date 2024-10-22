@@ -12,6 +12,8 @@ import { BACKEND_URL } from '@/route'
 // import { logout } from '@/utils/logout'
 // import { getCookie } from '@/utils/getCookie'
 
+import DummyProfile from '/dummyProfile.png'
+
 
 
 
@@ -130,8 +132,9 @@ const Sidebar = () => {
                             <div className='flex items-center gap-5'>
                                 <Avatar>
                                     <AvatarImage src={user?.avatar} alt="avatar" />
-                                    <AvatarFallback>NA</AvatarFallback>
-                                </Avatar>
+                                    <AvatarFallback>
+                                        <img src={DummyProfile} alt="avatar" />
+                                    </AvatarFallback>                                </Avatar>
                                 <span>Profile</span>
                             </div>
                         </div>

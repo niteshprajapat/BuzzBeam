@@ -8,32 +8,15 @@ import userRoutes from './routes/user.routes.js';
 import postRoutes from './routes/post.routes.js';
 import commentRoutes from './routes/comment.routes.js';
 import messageRoutes from './routes/message.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
 
 import { cloudinaryConfig } from './config/cloudinary.js';
-
-
-
-
-
 
 
 
 // Pwd change and update
 // Pwd Forgot and update
 // Pwd reset mail api and update
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -66,6 +49,7 @@ const startServer = async () => {
     app.use('/api/v1/posts', postRoutes);
     app.use('/api/v1/comments', commentRoutes);
     app.use('/api/v1/messages', messageRoutes);
+    app.use('/api/v1/notifications', notificationRoutes);
 
 
     // App Home Page

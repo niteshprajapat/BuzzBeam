@@ -13,6 +13,9 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner';
 
+import DummyProfile from '/dummyProfile.png';
+
+
 const Message = () => {
     const dispatch = useDispatch();
     const { allUsers, selectedUser, token, user } = useSelector((store) => store.auth);
@@ -73,7 +76,9 @@ const Message = () => {
                             >
                                 <Avatar>
                                     <AvatarImage src={chatUser?.avatar} alt={chatUser?.name} />
-                                    <AvatarFallback>CN</AvatarFallback>
+                                    <AvatarFallback>
+                                        <img src={DummyProfile} alt="avatar" />
+                                    </AvatarFallback>
                                 </Avatar>
 
                                 <div className='flex flex-col gap-[2px]'>
@@ -93,7 +98,9 @@ const Message = () => {
                                     <div className='rounded-full size-10 flex items-center gap-3 h-[50px]'>
                                         <Avatar className="rounded-full size-10">
                                             <AvatarImage src={selectedUser?.avatar} alt={selectedUser?.userName} className="rounded-full size-10" />
-                                            <AvatarFallback>CN</AvatarFallback>
+                                            <AvatarFallback>
+                                                <img src={DummyProfile} alt="avatar" />
+                                            </AvatarFallback>
                                         </Avatar>
 
                                         <p>{selectedUser?.userName}</p>
