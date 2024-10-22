@@ -1,4 +1,5 @@
 import User from '../models/user.model.js';
+import Notification from '../models/notification.model.js';
 import bcrypt from 'bcrypt'
 import multer from 'multer'
 import jwt from 'jsonwebtoken'
@@ -442,6 +443,14 @@ export const followUnfollow = async (req, res) => {
 
             await loggedInUser.save();
             await user.save();
+
+            const notification = new Notification({
+                from: userId,
+                to: loggedInUserId,
+                type: "follow",
+            });
+
+            await notification.save();
 
             return res.status(200).json({
                 success: true,
