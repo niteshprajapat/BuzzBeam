@@ -1,5 +1,6 @@
 import Post from "../models/post.model.js";
 import User from '../models/user.model.js';
+import Notification from "../models/notification.model.js";
 import Comment from "../models/comment.model.js";
 import multer from 'multer'
 import fs from 'fs'
@@ -124,7 +125,7 @@ export const createPost = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -154,7 +155,7 @@ export const getAllPosts = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -180,7 +181,7 @@ export const getPostById = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -216,7 +217,7 @@ export const updatePostById = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -240,7 +241,7 @@ export const getLoggedInUserPost = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -253,7 +254,10 @@ export const likeUnlikePost = async (req, res) => {
         const postId = req.params.id;
         const userId = req.user._id;
 
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate({
+            path: "user",
+            select: "-password",
+        });
 
         if (post.likes.includes(userId)) {
             // unlike
@@ -271,6 +275,15 @@ export const likeUnlikePost = async (req, res) => {
             await Post.findByIdAndUpdate(postId, { $push: { likes: userId } });
             await User.findByIdAndUpdate(userId, { $push: { postLiked: postId } });
 
+
+            const notification = new Notification({
+                from: userId,
+                to: post?.user?._id,
+                type: "like",
+            });
+
+            await notification.save();
+
             return res.status(200).json({
                 success: true,
                 message: "Post Liked Successfully!",
@@ -281,7 +294,7 @@ export const likeUnlikePost = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -298,7 +311,7 @@ export const deletePost = async (req, res) => {
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(404).json({
-                succes: false,
+                success: false,
                 message: "Post Not Found!",
             })
         }
@@ -306,7 +319,7 @@ export const deletePost = async (req, res) => {
         // check only owner of post can delete that post
         if (userId.toString() !== post?.user.toString()) {
             return res.status(400).json({
-                succes: false,
+                success: false,
                 message: "You can't delete this Post! You can delete your own posts!",
             });
         }
@@ -324,14 +337,14 @@ export const deletePost = async (req, res) => {
 
 
         return res.status(200).json({
-            succes: false,
+            success: false,
             message: "Post Deleted Successfully!",
         });
 
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
@@ -359,7 +372,7 @@ export const savePost = async (req, res) => {
             await User.findByIdAndUpdate(userId, { $pull: { savedPosts: postId } });
 
             return res.status(200).json({
-                succes: true,
+                success: true,
                 message: "Post Unsaved Successfully!"
             });
 
@@ -371,7 +384,7 @@ export const savePost = async (req, res) => {
             await User.findByIdAndUpdate(userId, { $push: { savedPosts: postId } });
 
             return res.status(200).json({
-                succes: true,
+                success: true,
                 message: "Post Saved Successfully!"
             });
         }
@@ -381,7 +394,7 @@ export const savePost = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: "Something went wrong!",
         });
     }
