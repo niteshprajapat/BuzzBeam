@@ -1,4 +1,5 @@
 import Comment from "../models/comment.model.js";
+import Notification from "../models/notification.model.js";
 import Post from "../models/post.model.js";
 
 
@@ -25,13 +26,26 @@ export const createComment = async (req, res) => {
         });
 
 
-        const post = await Post.findById(postId);
+        const post = await Post.findById(postId).populate({
+            path: "user",
+            select: "-password",
+        });
+
 
         if (post) {
             post.comments.push(comment._id);
             await post.save();
         }
 
+
+
+        const notification = new Notification({
+            from: userId,
+            to: post?.user?._id,
+            type: "like",
+        });
+
+        await notification.save();
 
         return res.status(201).json({
             success: true,
