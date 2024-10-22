@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const notificationSchema = new mongoose.Schema({
     from: {
@@ -13,12 +14,10 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         enum: ["follow", "like", "comment"],
     },
-    isRead: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
-    ],
+    isRead: {
+        type: Boolean,
+        default: false,
+    }
 
 
 }, { timestamps: true });
