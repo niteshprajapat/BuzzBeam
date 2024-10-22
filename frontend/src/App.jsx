@@ -10,6 +10,7 @@ import Reels from './pages/Reels/Reels';
 import Followers from './pages/FollowersFollowing/Followers';
 import Following from './pages/FollowersFollowing/Following';
 import Message from './pages/Message/Message';
+import Notifications from './pages/Notifications/Notifications';
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path='/following/:userId' element={<Following />} /> */}
                     <Route path='/profile/:id' element={<Profile />} />
                     <Route path='/messages' element={<Message />} />
+                    <Route path='/notifications' element={<Notifications />} />
 
                 </Route>
 
