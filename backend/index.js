@@ -9,6 +9,7 @@ import postRoutes from './routes/post.routes.js';
 import commentRoutes from './routes/comment.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import notificationRoutes from './routes/notification.routes.js';
+import storyRoutes from './routes/story.routes.js';
 
 import { cloudinaryConfig } from './config/cloudinary.js';
 
@@ -50,6 +51,7 @@ const startServer = async () => {
     app.use('/api/v1/comments', commentRoutes);
     app.use('/api/v1/messages', messageRoutes);
     app.use('/api/v1/notifications', notificationRoutes);
+    app.use('/api/v1/story', storyRoutes);
 
 
     // App Home Page
