@@ -21,7 +21,6 @@ const storySchema = new mongoose.Schema({
             ref: "User",
         }
     ],
-
     expiresAt: {
         type: Date,
         required: true,
