@@ -13,6 +13,8 @@ import storyRoutes from './routes/story.routes.js';
 
 import { cloudinaryConfig } from './config/cloudinary.js';
 
+import './utils/expireStoryCronJob.js';
+
 
 
 // Pwd change and update
