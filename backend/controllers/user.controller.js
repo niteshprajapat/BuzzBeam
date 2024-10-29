@@ -445,8 +445,8 @@ export const followUnfollow = async (req, res) => {
             await user.save();
 
             const notification = new Notification({
-                from: userId,
-                to: loggedInUserId,
+                from: loggedInUserId,
+                to: userId,
                 type: "follow",
             });
 
