@@ -6,7 +6,10 @@ export const getAllNotifications = async (req, res) => {
     try {
         const userId = req.user._id;
 
-        const notifications = await Notification.find({ to: userId });
+        const notifications = await Notification.find({ to: userId }).populate({
+            path: "from",
+            select: "-password"
+        });
         if (!notifications.length) {
             return res.status(200).json({
                 success: true,
