@@ -60,66 +60,122 @@ const Notifications = () => {
         }
     }
 
+
+
+    const handleReadAllNotifications = async (e) => {
+        try {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/notifications/readAllNotifications`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response?.data;
+            console.log("readAllNotifications", data);
+
+            toast.message(data?.message);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
+    const handleDeleteAllNotifications = async (e) => {
+        try {
+            const response = await axios.delete(`${BACKEND_URL}/api/v1/notifications/deleteAllNotifications`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token,
+                },
+                withCredentials: true,
+            });
+
+            const data = await response?.data;
+            console.log("readAllNotifications", data);
+
+            toast.message(data?.message);
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error?.response?.data?.message);
+        }
+    }
+
+
+
     return (
         <div className='flex h-screen'>
 
             <Sidebar />
 
-            <div className='flex flex-col w-full  h-full overflow-y-auto p-10 '>
+            <div className='flex flex-col w-full  h-full overflow-y-auto p-10 relative'>
+
+                <div className='absolute top-4 right-10 flex items-center gap-2'>
+                    <button onClick={handleReadAllNotifications}>View All</button>
+                    <button onClick={handleDeleteAllNotifications}>Delete All</button>
+                </div>
 
                 <div className='flex flex-col gap-2'>
                     {
-                        notifications && notifications?.map((notification) => (
-                            <div
-                                key={notification._id}
-                                className={`${notification?.isRead ? "bg-gray-200 border-white" : "bg-gray-100 border-black"}   rounded-md border  p-4 relative`}
-                            >
-                                <div className='flex items-center gap-4'>
+                        notifications?.length !== 0 ?
+                            notifications && notifications?.map((notification) => (
+                                <div
+                                    key={notification._id}
+                                    className={`${notification?.isRead ? "bg-gray-200 border-white" : "bg-gray-100 border-black"}   rounded-md border  p-4 relative`}
+                                >
+                                    <div className='flex items-center gap-4'>
 
-                                    <img
-                                        src={notification?.from?.avatar}
-                                        alt="avatar"
-                                        className='size-12 rounded-full'
-                                    />
+                                        <img
+                                            src={notification?.from?.avatar}
+                                            alt="avatar"
+                                            className='size-12 rounded-full'
+                                        />
 
-                                    <div className='flex flex-col gap-[2px]'>
-                                        <p>{notification?.from?.userName}   {
-                                            notification?.type === "like"
-                                                ? "liked your post"
-                                                : notification?.type === "follow"
-                                                    ? "followed you"
-                                                    : "commented on your post"
+                                        <div className='flex flex-col gap-[2px]'>
+                                            <p>{notification?.from?.userName}   {
+                                                notification?.type === "like"
+                                                    ? "liked your post"
+                                                    : notification?.type === "follow"
+                                                        ? "followed you"
+                                                        : "commented on your post"
 
+                                            }
+                                            </p>
+                                            <span> {formatDistanceToNow(notification?.createdAt)} ago </span>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div className='absolute top-3 right-5 flex flex-col gap-1'>
+
+
+                                        {
+                                            !notification?.isRead && (
+                                                <div
+                                                    onClick={() => handleReadNotificationById(notification?._id)}
+                                                    className=' cursor-pointer'>
+                                                    <EyeIcon />
+                                                </div>
+                                            )
                                         }
-                                        </p>
-                                        <span> {formatDistanceToNow(notification?.createdAt)} ago </span>
+
+                                        <div
+                                            onClick={() => handleDeleteNotificationById(notification?._id)}
+                                            className=' cursor-pointer'>
+                                            <Trash2 />
+                                        </div>
                                     </div>
 
                                 </div>
+                            ))
 
-
-                                <div className='absolute top-3 right-5 flex flex-col gap-1'>
-
-
-                                    {
-                                        !notification?.isRead && (
-                                            <div
-                                                onClick={() => handleReadNotificationById(notification?._id)}
-                                                className=' cursor-pointer'>
-                                                <EyeIcon />
-                                            </div>
-                                        )
-                                    }
-
-                                    <div
-                                        onClick={() => handleDeleteNotificationById(notification?._id)}
-                                        className=' cursor-pointer'>
-                                        <Trash2 />
-                                    </div>
-                                </div>
-
+                            : <div className=''>
+                                <h1>No New Notification</h1>
                             </div>
-                        ))
                     }
                 </div>
 
