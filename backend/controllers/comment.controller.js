@@ -42,7 +42,7 @@ export const createComment = async (req, res) => {
         const notification = new Notification({
             from: userId,
             to: post?.user?._id,
-            type: "like",
+            type: "comment",
         });
 
         await notification.save();
