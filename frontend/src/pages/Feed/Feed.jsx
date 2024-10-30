@@ -3,6 +3,7 @@ import React from 'react'
 import Sidebar from '@/components/ui/Sidebar/Sidebar'
 import AllPosts from '@/components/Feed/AllPosts'
 import SuggestedUsers from '@/components/Feed/SuggestedUsers'
+import Story from '@/components/Story/Story'
 
 
 const Feed = () => {
@@ -11,8 +12,16 @@ const Feed = () => {
             <Sidebar />
 
 
-            <div className='flex justify-between items-center w-full py-10'>
-                <div className='h-full overflow-y-auto max-w-4xl mx-auto'>
+
+
+
+            <div className='flex justify-between items-center w-full py-10 '>
+
+                <Story />
+
+                <div className='h-full overflow-y-auto max-w-4xl mx-auto pt-10 '>
+
+
                     <AllPosts />
                 </div>
 
