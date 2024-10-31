@@ -97,6 +97,13 @@ export const uploadStory = async (req, res) => {
             expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
         });
 
+        story.populate({
+            path: "user",
+            select: "-password",
+        });
+
+        await story.save();
+
         return res.status(201).json({
             success: true,
             message: "Story Uploaded Successfully!",
