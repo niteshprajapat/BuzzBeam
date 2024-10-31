@@ -4,14 +4,14 @@ import { Button } from '../ui/button';
 import axios from 'axios';
 import { BACKEND_URL } from '@/route';
 import { toast } from 'sonner';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setYourStory } from '@/redux/slices/storySlice';
 
 const UploadStoryModal = ({ openModal, setOpenModal }) => {
+    const dispatch = useDispatch();
     const { user, token } = useSelector((store) => store.auth);
+    const { yourStory } = useSelector((store) => store.story);
 
-
-    const [file, setFile] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
     const imageRef = useRef();
     const [filePreview, setFilePreview] = useState(null);
 
@@ -92,7 +92,7 @@ const UploadStoryModal = ({ openModal, setOpenModal }) => {
 
             if (data?.success) {
                 toast.success(data?.message);
-
+                dispatch(setYourStory(data?.story));
                 setOpenModal(false);
             }
 
