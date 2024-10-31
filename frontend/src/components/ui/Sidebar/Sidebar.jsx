@@ -13,6 +13,8 @@ import { BACKEND_URL } from '@/route'
 // import { getCookie } from '@/utils/getCookie'
 
 import DummyProfile from '/dummyProfile.png'
+import { setStories, setYourStory } from '@/redux/slices/storySlice'
+import { setPosts } from '@/redux/slices/postSlice'
 
 
 
@@ -49,6 +51,9 @@ const Sidebar = () => {
             if (data.success) {
                 dispatch(setUser(null));
                 dispatch(setToken(null));
+                dispatch(setPosts([]));
+                dispatch(setStories([]))
+                dispatch(setYourStory({}));
 
                 toast.success(data?.message);
                 navigate('/login')
