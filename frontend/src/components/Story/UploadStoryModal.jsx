@@ -125,7 +125,7 @@ const UploadStoryModal = ({ openModal, setOpenModal }) => {
                         filePreview && (
                             storyType === "image"
                                 ? <img src={filePreview} alt="preview" />
-                                : <video src={filePreview} controls />
+                                : <video src={filePreview} controls className='h-[300px] w-full' />
                         )
                     }
 
