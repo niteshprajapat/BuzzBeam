@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
     auth: userSlice,
     post: postSlice,
     message: messageSlice,
+    notification: notificaationSlice,
     story: storySlice,
 
 });
