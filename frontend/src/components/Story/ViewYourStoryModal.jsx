@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Dialog, DialogContent } from '../ui/dialog'
 import { Button } from '../ui/button';
 import axios from 'axios';
@@ -43,7 +43,34 @@ const ViewYourStoryModal = ({ yourStoryopenModal, setYourStoryOpenModal }) => {
         }
     }
 
+    // const handleStoryViewedBy = async () => {
+    //     try {
+    //         const response = await axios.get(`${BACKEND_URL}/api/v1/story/storyViewedBy/${yourStory?._id}`, {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 Authorization: 'Bearer ' + token,
+    //             },
+    //             withCredentials: true,
+    //         });
 
+    //         const data = await response.data;
+    //         console.log("STORYVIIEWEDBY", data);
+
+    //         if (data?.success) {
+    //             toast.success(data?.message);
+    //         }
+
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error?.response?.data?.message);
+
+    //     }
+    // }
+
+
+    // useEffect(() => {
+    //     handleStoryViewedBy();
+    // }, [yourStory]);
 
 
 
@@ -65,13 +92,17 @@ const ViewYourStoryModal = ({ yourStoryopenModal, setYourStoryOpenModal }) => {
                                 <video
                                     src={yourStory?.storySource}
                                     controls
+                                    className='h-[300px] w-full'
                                 />
                             )
                     }
                 </div>
 
 
-                <div>
+                <div className='flex justify-between items-center w-full'>
+                    <div className='flex'>
+                        <span>{yourStory?.viewers?.length} views </span>
+                    </div>
                     <Trash2 onClick={handleDeleteStory} />
                 </div>
 
