@@ -53,7 +53,7 @@ const Sidebar = () => {
                 dispatch(setToken(null));
                 dispatch(setPosts([]));
                 dispatch(setStories([]))
-                dispatch(setYourStory({}));
+                // dispatch(setYourStory({}));
 
                 toast.success(data?.message);
                 navigate('/login')
