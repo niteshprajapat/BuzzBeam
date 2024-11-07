@@ -11,11 +11,7 @@ import ViewOtherUsersStoryModal from './viewOtherUsersStoryModal';
 const Story = () => {
     const { stories, yourStory } = useSelector((store) => store?.story);
 
-
-
     useGetAllStories();
-
-    console.log("stories", stories);
 
 
 
